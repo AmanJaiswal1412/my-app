@@ -16,4 +16,5 @@ model User {
   birthDate DateTime
   location  String
   password  String
+  profilePicture String?
 }

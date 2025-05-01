@@ -35,7 +35,7 @@ export default function LoginPage() {
         sessionStorage.setItem("token", response.data.token);
 
         // Optionally, redirect the user to a protected page (e.g., dashboard)
-        router.push("/"); // Adjust the redirection as needed
+        router.push("/profile"); // Adjust the redirection as needed
       } else {
         setError("Login failed. Please try again.");
       }
@@ -59,7 +59,7 @@ export default function LoginPage() {
         setError("Third-party login failed. Please try again.");
       } else {
         // Redirect or handle post-login (you can get the JWT token in the `result` object)
-        router.push("/"); // Adjust the redirection as needed
+        router.push("/profile"); // Adjust the redirection as needed
       }
     } catch (error) {
       setError("Error occurred during third-party login.");
@@ -118,15 +118,23 @@ export default function LoginPage() {
         <div className="flex space-x-4 mt-4">
           <button
             onClick={() => handleThirdPartyLogin("google")}
-            className="flex items-center justify-center w-full bg-red-600 text-white py-3 rounded-lg hover:bg-red-700 transition"
+            className="flex items-center justify-center w-full  bg-white border py-3 rounded-lg hover:bg-gray-100 transition"
           >
-            Login with Google
+            <img
+              src="/google-icon.png"
+              alt="Login with Google"
+              className="h-6 w-6"
+            />
           </button>
           <button
             onClick={() => handleThirdPartyLogin("facebook")}
-            className="flex items-center justify-center w-full bg-blue-600 text-white py-3 rounded-lg hover:bg-blue-700 transition"
+            className="flex items-center justify-center w-full  bg-white border py-3 rounded-lg hover:bg-gray-100 transition"
           >
-            Login with Facebook
+            <img
+              src="/facebook-icon.png"
+              alt="Login with Facebook"
+              className="h-6 w-6"
+            />
           </button>
         </div>
 

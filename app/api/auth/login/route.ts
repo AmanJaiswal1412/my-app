@@ -33,7 +33,7 @@ export async function POST(req: NextRequest) {
 
   // Issue JWT token
   const token = jwt.sign(
-    { id: user.id, email: user.email, name: user.name },
+    { id: user.id, email: user.email, name: user.firstName },
     process.env.JWT_SECRET || 'your_default_secret_key',
     { expiresIn: '7d' }
   );
