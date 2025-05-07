@@ -8,7 +8,14 @@ export default function ProfilePage() {
   const [formData, setFormData] = useState({
     firstName: "",
     lastName: "",
+    gender: "",
+    email: "",
     birthDate: "",
+    birthHour: "",
+    birthMinute: "",
+    birthCountry: "",
+    birthState: "",
+    birthCity: "",
     location: "",
     password: "",
     profilePicture: null as File | null,
@@ -54,7 +61,7 @@ export default function ProfilePage() {
 
   return (
     <div className="min-h-screen bg-gray-50 flex items-center justify-center p-4">
-      <div className="bg-white shadow-xl rounded-lg p-6 w-full max-w-xl space-y-5">
+      <div className="bg-white shadow-xl rounded-lg p-6 w-full max-w-2xl space-y-5">
         <h1 className="text-2xl font-bold text-center">Edit Profile</h1>
 
         {message && (
@@ -62,6 +69,17 @@ export default function ProfilePage() {
         )}
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <select
+            name="gender"
+            value={formData.gender}
+            className="border rounded-lg p-3 w-full"
+          >
+            <option value="">Select Gender</option>
+            <option value="Male">Male</option>
+            <option value="Female">Female</option>
+            <option value="Other">Other</option>
+          </select>
+
           <input
             name="firstName"
             value={formData.firstName}
@@ -77,12 +95,98 @@ export default function ProfilePage() {
             className="border rounded-lg p-3 w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
           <input
-            type="date"
-            name="birthDate"
-            value={formData.birthDate}
+            type="email"
+            name="email"
+            value={formData.email}
             onChange={handleChange}
-            className="border rounded-lg p-3 w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
+            placeholder="email"
+            className="border rounded-lg p-3 w-full"
           />
+        </div>
+        <div className="grid grid-cols-2 gap-2">
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1">
+              Date of Birth
+            </label>
+            <input
+              type="date"
+              name="birthDate"
+              value={formData.birthDate}
+              onChange={handleChange}
+              placeholder="Date of Birth"
+              className="border rounded-lg p-3 w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
+            />
+          </div>
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1">
+              Time of Birth
+            </label>
+            <div className="grid grid-cols-2 gap-2">
+              <select
+                name="birthHour"
+                value={formData.birthHour}
+                className="border rounded-lg p-3 w-full"
+              >
+                <option value="">Hour</option>
+                {[...Array(24)].map((_, i) => (
+                  <option key={i} value={String(i).padStart(2, "0")}>
+                    {String(i).padStart(2, "0")}
+                  </option>
+                ))}
+              </select>
+              <select
+                name="birthMinute"
+                value={formData.birthMinute}
+                className="border rounded-lg p-3 w-full"
+              >
+                <option value="">Minute</option>
+                {[...Array(60)].map((_, i) => (
+                  <option key={i} value={String(i).padStart(2, "0")}>
+                    {String(i).padStart(2, "0")}
+                  </option>
+                ))}
+              </select>
+            </div>
+          </div>
+        </div>
+        <div className="grid grid-cols-1 gap-2">
+          <label className="block text-sm font-medium text-gray-700 mb-1">
+            Place of Birth
+          </label>
+          <div className="grid grid-cols-3 gap-2">
+            <select
+              name="birthCountry"
+              value={formData.birthCountry}
+              className="border rounded-lg p-3 w-full"
+            >
+              <option value="">Select Country</option>
+              <option value="India">India</option>
+              <option value="USA">USA</option>
+              {/* add more */}
+            </select>
+            <select
+              name="birthState"
+              value={formData.birthState}
+              className="border rounded-lg p-3 w-full"
+            >
+              <option value="">Select State</option>
+              <option value="Delhi">Delhi</option>
+              <option value="California">California</option>
+              {/* add more */}
+            </select>
+            <select
+              name="birthCity"
+              value={formData.birthCity}
+              className="border rounded-lg p-3 w-full"
+            >
+              <option value="">Select City</option>
+              <option value="New Delhi">New Delhi</option>
+              <option value="San Francisco">San Francisco</option>
+              {/* add more */}
+            </select>
+          </div>
+        </div>
+        <div className="grid grid-cols-2 gap-2">
           <input
             name="location"
             value={formData.location}

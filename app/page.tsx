@@ -1,101 +1,189 @@
+"use client";
+
 import Image from "next/image";
+import { useState } from "react";
+
+const categories = [
+  "2025 Horoscope",
+  "Pt. Punarvasu",
+  "Career Reports",
+  "Astrology Consultation",
+  "Financial Horoscope",
+  "Love Marriage Horoscope",
+  "Unknown Birthtime",
+  "Detailed Horoscope",
+  "Others",
+  "Child Astrology",
+  "Pt.Ajai Bhambi",
+  "Birthday Astrology Report",
+  "Pankaj",
+  "Member",
+];
+
+type Product = {
+  name: string;
+  price: number;
+};
+
+const productData: Record<string, Product[]> = {
+  "2025 Horoscope": [
+    { name: "2025 Horoscope Reading (In Hindi Language)", price: 3430 },
+    { name: "2025 Horoscope Reading", price: 3430 },
+    { name: "2025 Career Report", price: 3430 },
+    { name: "2025 Love or Marriage Report", price: 3430 },
+    { name: "2025 Finance Report", price: 3430 },
+    { name: "2025 Horoscope Reading + 1 question", price: 4480 },
+    { name: "2025 Horoscope Reading + webchat to discuss", price: 5180 },
+    {
+      name: "2025 Horoscope Reading + day to day forecast & planner",
+      price: 6930,
+    },
+    { name: "2025 Career Report + 1 question", price: 4480 },
+    { name: "2025 Career Report + webchat to discuss", price: 5180 },
+    { name: "2025 Career Report + day to day career prediction", price: 5880 },
+    { name: "2025 Love or Marriage Report + 1 question", price: 4480 },
+    { name: "2025 Love or Marriage Report + webchat to discuss", price: 5180 },
+    {
+      name: "2025 Love or Marriage Report + day to day love prediction",
+      price: 6930,
+    },
+    { name: "2025 Finance Report + 1 question", price: 4480 },
+    {
+      name: "2025 Finance Report + webchat to discuss",
+      price: 5180,
+    },
+    {
+      name: "2025 Finance Report + day to day finance prediction",
+      price: 6930,
+    },
+    { name: "2025 Horoscope Reading- 2 Profiles", price: 6230 },
+    { name: "2025 Horoscope Reading- 3 Profiles", price: 9240 },
+    {
+      name: "2025 Horoscope Reading- 4 Profiles",
+      price: 11830,
+    },
+  ],
+  "Pt. Punarvasu": [],
+  "Career Reports": [],
+  "Astrology Consultation": [],
+  "Financial Horoscope": [],
+  "Love Marriage Horoscope": [],
+  "Unknown Birthtime": [],
+  "Detailed Horoscope": [],
+  Others: [],
+  "Child Astrology": [],
+  "Pt.Ajai Bhambi": [],
+  "Birthday Astrology Report": [],
+  Pankaj: [],
+  Member: [],
+};
 
 export default function Home() {
-  return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm/6 text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2 tracking-[-.01em]">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-[family-name:var(--font-geist-mono)] font-semibold">
-              app/page.tsx
-            </code>
-            .
-          </li>
-          <li className="tracking-[-.01em]">Next.js</li>
-        </ol>
+  const [openSections, setOpenSections] = useState<string[]>([]);
+  const [selectedProducts, setSelectedProducts] = useState<Product[]>([]);
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:w-auto"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 w-full sm:w-auto md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
+  const toggleSection = (category: string) => {
+    setOpenSections((prev) =>
+      prev.includes(category)
+        ? prev.filter((item) => item !== category)
+        : [...prev, category]
+    );
+  };
+
+  const handleCheckboxChange = (product: Product) => {
+    setSelectedProducts((prev) => {
+      const exists = prev.find((p) => p.name === product.name);
+      if (exists) {
+        return prev.filter((p) => p.name !== product.name);
+      } else {
+        return [...prev, product];
+      }
+    });
+  };
+
+  const subtotal = selectedProducts.reduce((sum, item) => sum + item.price, 0);
+
+  return (
+    <div className="p-4 sm:p-6 md:p-8">
+      {/* Cart */}
+      <div className="border border-yellow-400 bg-yellow-50 p-3 rounded-t-md text-sm flex flex-col sm:flex-row justify-between items-start sm:items-center">
+        <div>
+          <strong>Product Cart:</strong>
+          <ul className="text-xs mt-2">
+            {selectedProducts.map((item) => (
+              <li key={item.name}>
+                {item.name} - Rs. {item.price}
+              </li>
+            ))}
+          </ul>
         </div>
-      </main>
-      <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
+        <span className="mt-2 sm:mt-0">
+          Subtotal ({selectedProducts.length} items): Rs. {subtotal}
+        </span>
+        <div className="flex gap-2 items-center mt-2 sm:mt-0">
+          <select className="border p-1 text-sm">
+            <option>-- Choose Currency --</option>
+          </select>
+          <button className="bg-yellow-500 hover:bg-yellow-600 text-white px-4 py-1 rounded">
+            🛒 Continue
+          </button>
+        </div>
+      </div>
+
+      {/* Main Content */}
+      <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mt-4">
+        {/* Left: Collapsible Categories */}
+        <div className="md:col-span-3 space-y-2">
+          {categories.map((cat) => (
+            <div key={cat}>
+              <button
+                onClick={() => toggleSection(cat)}
+                className="w-full bg-gray-600 hover:bg-gray-700 text-white font-semibold px-4 py-2 text-left rounded transition"
+              >
+                {openSections.includes(cat) ? "▾" : "▸"} {cat}
+              </button>
+              {openSections.includes(cat) && (
+                <div className="bg-white border border-gray-300 p-4 space-y-2">
+                  {(productData[cat] || []).map((product, index) => (
+                    <div
+                      key={index}
+                      className="flex justify-between items-center border-b py-2 hover:bg-gray-50 px-2"
+                    >
+                      <label className="flex items-center gap-2">
+                        <input
+                          type="checkbox"
+                          className="accent-blue-600"
+                          checked={selectedProducts.some(
+                            (p) => p.name === product.name
+                          )}
+                          onChange={() => handleCheckboxChange(product)}
+                        />
+                        {product.name}
+                      </label>
+                      <span className="font-semibold text-sm">
+                        Rs. {product.price}
+                      </span>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
+          ))}
+        </div>
+
+        {/* Right: Static Category List */}
+        <div className="bg-white border p-4 rounded shadow">
+          <h3 className="font-semibold text-lg mb-2">Categories</h3>
+          <ul className="space-y-1 text-sm">
+            {categories.map((cat) => (
+              <li key={cat} className="flex items-center gap-2">
+                <span>⚙️</span>
+                <span>{cat}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </div>
     </div>
   );
 }
